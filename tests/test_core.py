@@ -280,7 +280,8 @@ class TerminalTests(unittest.TestCase):
                 time.sleep(0.02)
             self.assertIn('Password:', normalized())
             terminal.send_console(b'fixture-password\r')
-            while b'AUTH_OK' not in output and terminal.poll() is None and time.monotonic() < deadline:
+            # Process exit can precede the reader's final output callback.
+            while not any(word in normalized() for word in ('AUTH_OK', 'AUTH_BAD')) and time.monotonic() < deadline:
                 time.sleep(0.02)
             self.assertIn('AUTH_OK', normalized())
             self.assertNotIn('fixture-password', normalized())
@@ -290,18 +291,16 @@ class TerminalTests(unittest.TestCase):
     def test_raw_data_roundtrip(self):
         output = bytearray()
         code = "import sys,base64; print(base64.b64encode(bytes(range(256))*768).decode(),flush=True)"
+        encoded = base64.b64encode(bytes(range(256)) * 768).decode()
         terminal = sm.Terminal([sys.executable, '-u', '-c', code], output.extend)
         try:
             deadline = time.monotonic() + 10
-            while time.monotonic() < deadline and terminal.poll() is None:
+            while encoded not in output.decode('utf-8', errors='replace') and time.monotonic() < deadline:
                 time.sleep(0.02)
-            time.sleep(0.1)
+            # Auth terminal can emit its title; raw stdout remains unmodified.
+            self.assertIn(encoded, output.decode('utf-8', errors='replace'))
         finally:
             terminal.close()
-        # Auth terminal can emit its title; raw stdout remains unmodified.
-        text = output.decode('utf-8', errors='replace')
-        encoded = base64.b64encode(bytes(range(256)) * 768).decode()
-        self.assertIn(encoded, text)
 
 
 if __name__ == '__main__':
