@@ -1,0 +1,7 @@
+{
+  "transport": "shell",
+  "auth": {
+    "url_pattern": "https://[^\\s]+/qr[^\\s]*",
+    "confirm_empty_prompts": ["\\[EMAIL\\] password:", "\\[OTP\\] code:"]
+  }
+}

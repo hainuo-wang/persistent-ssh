@@ -1,0 +1,8 @@
+{
+  "transport": "shell",
+  "remote_python": "python3",
+  "auth": {
+    "prompt_pattern": "(?im)(?:Challenge|Access code):[ \\t]*$",
+    "shell_prompt_pattern": "(?:^|[\\r\\n])workbench> $"
+  }
+}

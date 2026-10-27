@@ -1,0 +1,4 @@
+interface:
+  display_name: "Persistent SSH"
+  short_description: "Reuse interactive SSH logins for remote jobs and file transfers"
+  default_prompt: "Use $persistent-ssh to reuse or authenticate an SSH profile and work in the requested remote project."
