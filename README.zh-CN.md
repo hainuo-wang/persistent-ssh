@@ -66,7 +66,7 @@ python scripts/ssh_manager.py --profile lab download /tmp/results.json ./outputs
 
 - Windows：ConPTY + 任务计划程序，已验证独立后台启动和原始数据通道。
 - Linux：PTY + systemd 用户服务或 tmux；已有离线密码/OTP 完整链路测试。
-- macOS：已实现 PTY/launchd 后端，**尚未实机验证**。
+- macOS：核心及 PTY 离线测试已通过 GitHub CI；**launchd 后台生命周期尚未验证**。
 - 远端：目前要求 Linux、可用 shell、Python 3.8+、Bash、`/proc` 和可写临时目录。
 
 “无法配置密钥”本身不是障碍，但不能据此覆盖所有设备。禁止 shell/Python 的堡垒机、
@@ -83,7 +83,8 @@ python scripts/ssh_manager.py --profile lab download /tmp/results.json ./outputs
 python -m unittest discover -s tests -v
 ```
 
-测试使用隔离文件和模拟认证入口，不需要公开真实服务器配置。仓库同时包含
+测试使用隔离文件和模拟认证入口，不需要公开真实服务器配置。GitHub CI 已通过
+Windows/Linux/macOS × Python 3.10/3.12/3.14 的全部九种组合。仓库同时包含
 GitHub Actions、英文/中文说明、认证示例和 MIT 许可证。上传这个仓库目录即可；
 不要上传父工作目录。已有相似开源工具及本项目的定位见
 [相关项目对比](docs/related-work.md)，本项目不宣称首创。

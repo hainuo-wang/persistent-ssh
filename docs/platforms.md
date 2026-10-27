@@ -7,20 +7,23 @@ This matrix records observations as of **2026-10-27**, not universal compatibili
 | Windows local host | ConPTY for authentication; raw pipes for data; on-demand Task Scheduler | Native raw-data tests and system-task startup tested; task has no trigger or runtime limit and is parented by the system service |
 | Linux local host | Controlling PTY plus raw pipes; user systemd or tmux | Core suite and offline password→OTP→helper→jobs/transfers integration tested on Linux; tmux hosting exercised |
 | Linux systemd hosting | `systemd-run --user` when a user manager is available | Implemented; actual service launch not exercised in the available container |
-| macOS local host | POSIX PTY and per-user launchd | Implemented, not yet verified on a real Mac; CI configuration is not proof of execution |
+| macOS local host | POSIX PTY and per-user launchd | Core and PTY offline tests passed on GitHub macOS runners; launchd lifecycle has not been exercised |
 | Linux remote helper | Python 3.8+, Bash, `/proc`, writable temp; optional tmux | Real remote job/file behavior exercised by the preceding provider-specific implementation; generalized helper also exercised in the Linux offline fixture |
 | Authentication | Manual password/OTP; configurable scan/push empty-response sequence | Generic state-machine tests and Linux synthetic password/OTP fixture; not a claim that every MFA provider has been tested |
 | Native interactive gateway | System OpenSSH, human scan approval | Verified in the predecessor on a real gateway; generic profile login remains provider-dependent |
 
 Local Python 3.10+ is the supported baseline. The local checks used Python 3.14
-on Windows and Python 3.12 on Linux; CI is configured to exercise additional
-supported Python versions. The runtime has no pip dependencies.
+on Windows and Python 3.12 on Linux. GitHub Actions also passed all nine combinations
+of Windows/Linux/macOS and Python 3.10/3.12/3.14 in the
+[initial publication run](https://github.com/hainuo-wang/persistent-ssh/actions/runs/40482179743).
+The runtime has no pip dependencies.
 
 Final local verification collected 26 tests: **25 passed and one Linux-only test
 was skipped on Windows; all 26 passed on Linux**. This includes installing the
 complete skill into an isolated directory and creating a source archive from
-that installation. The skill manifest validator also passed. The GitHub Actions
-matrix has been provided but was not run on GitHub as part of this verification.
+that installation. The skill manifest validator also passed. The CI suite uses
+offline fixtures; it does not verify every native SSH/MFA provider or every
+platform service manager.
 
 ## Persistence boundaries
 

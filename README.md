@@ -170,8 +170,9 @@ synthetic password/OTP values and a local SSH-shaped process; it never contacts 
 external host. It verifies the real PTY, broker, helper, files and job lifecycle,
 but is not evidence of compatibility with every SSH/MFA provider.
 
-The repository includes a GitHub Actions matrix. Its configured macOS job is not
-a claim that macOS has already been tested. Actual observations are listed in
+The GitHub Actions offline matrix has passed on Windows, Linux and macOS with
+Python 3.10, 3.12 and 3.14. macOS launchd lifecycle and provider-specific native
+authentication still need separate verification. Actual observations are listed in
 [platforms.md](docs/platforms.md). Similar existing projects and differences are
 documented in [related-work.md](docs/related-work.md).
 
